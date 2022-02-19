@@ -17,3 +17,8 @@
   background-color: darksalmon;
   border: none;
 }
+
+.button:disabled {
+  background-color: lightgrey;
+  cursor: initial;
+}

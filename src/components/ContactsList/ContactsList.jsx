@@ -1,32 +1,20 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 
-import * as phonebookOperations from 'redux/phonebook/phonebook-operations';
-import { getVisibleContacts } from 'redux/phonebook/phonebook-selectors';
+// import * as phonebookOperations from 'redux/phonebook/phonebook-operations';
+// import { getVisibleContacts } from 'redux/phonebook/phonebook-selectors';
 import Contact from './Contact';
+import { useGetContactsQuery } from 'redux/phonebook/phonebook-slice';
 
 export default function ContactsList() {
-  const contacts = useSelector(getVisibleContacts);
-  const dispatch = useDispatch();
-
-  useEffect(() => dispatch(phonebookOperations.fetchContacts()), [dispatch]);
-
-  const onDelete = id => {
-    dispatch(phonebookOperations.deleteContact(id));
-  };
+  const { data: contacts } = useGetContactsQuery();
 
   return (
     <ul>
-      {contacts.map(({ id, name, phone }) => {
-        return (
-          <Contact
-            key={id}
-            name={name}
-            number={phone}
-            onDelete={() => onDelete(id)}
-          />
-        );
-      })}
+      {contacts?.length > 0 &&
+        contacts.map(({ id, name, phone }) => {
+          return <Contact key={id} id={id} name={name} number={phone} />;
+        })}
     </ul>
   );
 }
