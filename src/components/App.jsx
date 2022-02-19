@@ -2,18 +2,25 @@ import Container from './Container';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
 import ContactsList from './ContactsList';
-import { useSelector } from 'react-redux';
-import { getLoading } from 'redux/phonebook/phonebook-selectors';
+import {
+  useAddContactMutation,
+  useGetContactsQuery,
+} from 'redux/phonebook/phonebook-slice';
 
 export function App() {
-  const isLoading = useSelector(getLoading);
+  const { isLoading } = useGetContactsQuery();
+  const [, { isLoading: isAddingContact }] = useAddContactMutation({
+    fixedCacheKey: 'shared-add-mutation',
+  });
 
   return (
     <Container>
       <h1>PhoneBook</h1>
       <ContactForm />
 
-      <h2>Contacts {isLoading && <span>loading...</span>}</h2>
+      <h2>
+        Contacts {(isLoading || isAddingContact) && <span>loading...</span>}
+      </h2>
 
       <Filter />
       <ContactsList />

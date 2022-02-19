@@ -35,6 +35,11 @@
   cursor: pointer;
 }
 
+.button:disabled {
+  background-color: lightgrey;
+  cursor: initial;
+}
+
 @media screen and (max-width: 767px) {
   .labelBox {
     flex-basis: 100%;

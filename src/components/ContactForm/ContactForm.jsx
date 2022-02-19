@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { useAddContactMutation } from 'redux/phonebook/phonebook-slice';
 
 import s from './ContactForm.module.css';
-import { useDispatch } from 'react-redux';
-import * as phonebookOperations from 'redux/phonebook/phonebook-operations';
-
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const dispatch = useDispatch();
+  const [addContact, { isLoading }] = useAddContactMutation({
+    fixedCacheKey: 'shared-add-mutation',
+  });
 
   function handleChange({ target: { name, value } }) {
     name === 'name' ? setName(value) : setPhone(value);
@@ -15,7 +15,7 @@ export default function ContactForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(phonebookOperations.addContact({ name, phone }));
+    addContact({ name, phone });
     setName('');
     setPhone('');
   }
@@ -52,8 +52,8 @@ export default function ContactForm() {
           />
         </label>
       </div>
-      <button className={s.button} type="submit">
-        Add contact
+      <button disabled={isLoading} className={s.button} type="submit">
+        {isLoading ? 'Creating...' : 'Add contact'}
       </button>
     </form>
   );
