@@ -1,1 +1,1 @@
-export const getFilter = state => state.phonebook.filter;
+export const getFilter = state => state?.phonebook?.filter;
