@@ -23,6 +23,7 @@ export default function Contact({ id, name, number }) {
 }
 
 Contact.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string,
   number: PropTypes.string,
   onDelete: PropTypes.func,

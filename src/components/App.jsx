@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Container from './Container';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
@@ -8,6 +9,7 @@ import {
 } from 'redux/phonebook/phonebook-slice';
 
 export function App() {
+  const [filter, setFilter] = useState('');
   const { isLoading } = useGetContactsQuery();
   const [, { isLoading: isAddingContact }] = useAddContactMutation({
     fixedCacheKey: 'shared-add-mutation',
@@ -22,8 +24,8 @@ export function App() {
         Contacts {(isLoading || isAddingContact) && <span>loading...</span>}
       </h2>
 
-      <Filter />
-      <ContactsList />
+      <Filter onFilterChange={setFilter} />
+      <ContactsList filter={filter} />
     </Container>
   );
 }
